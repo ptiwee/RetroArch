@@ -1032,6 +1032,7 @@ int generic_action_ok_displaylist_push(const char *path,
 #if defined(HAVE_CG) || defined(HAVE_GLSL) || defined(HAVE_SLANG) || defined(HAVE_HLSL)
          {
             const char *shader_file_name = NULL;
+            const char *path = "/usr/share/retroarch/shaders/bitbox";
 
             filebrowser_clear_type();
             info.type          = type;
@@ -1041,6 +1042,8 @@ int generic_action_ok_displaylist_push(const char *path,
 
             menu_driver_get_last_shader_preset_path(&info_path, &shader_file_name);
             menu_driver_set_pending_selection(shader_file_name);
+
+            info_path = path;
          }
 #endif
          break;
@@ -2016,7 +2019,7 @@ static int generic_action_ok(const char *path,
 #if defined(HAVE_CG) || defined(HAVE_GLSL) || defined(HAVE_SLANG) || defined(HAVE_HLSL)
          {
             struct video_shader      *shader  = menu_shader_get();
-            flush_char = msg_hash_to_str(flush_id);
+            //flush_char = msg_hash_to_str(flush_id);
 
             /* Cache selected shader parent directory/file name */
             menu_driver_set_last_shader_preset_path(action_path);
