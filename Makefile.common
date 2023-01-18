@@ -1051,6 +1051,8 @@ ifeq ($(HAVE_MENU), 1)
       HAVE_MENU_SCREENSAVER = 1
    endif
 
+   OBJ += menu/drivers/bitbox.o
+
    ifeq ($(HAVE_MENU_SCREENSAVER), 1)
       OBJ += menu/menu_screensaver.o
    endif

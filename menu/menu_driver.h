@@ -945,6 +945,7 @@ extern menu_ctx_driver_t menu_ctx_xui;
 extern menu_ctx_driver_t menu_ctx_rgui;
 extern menu_ctx_driver_t menu_ctx_mui;
 extern menu_ctx_driver_t menu_ctx_xmb;
+extern menu_ctx_driver_t menu_ctx_bitbox;
 extern menu_ctx_driver_t menu_ctx_stripes;
 
 void menu_input_search_cb(void *userdata, const char *str);

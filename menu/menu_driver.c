@@ -309,6 +309,7 @@ const menu_ctx_driver_t *menu_ctx_drivers[] = {
 #if defined(HAVE_XMB)
    &menu_ctx_xmb,
 #endif
+   &menu_ctx_bitbox,
    &menu_ctx_null,
    NULL
 };
@@ -5845,7 +5846,7 @@ unsigned menu_event(
          if (initial_held)
             delay_timer             = menu_scroll_delay;
          else
-            delay_timer             = menu_scroll_fast ? 100 : 20;
+            delay_timer             = menu_scroll_fast ? 100 : 50;
          delay_count                = 0;
       }
 
