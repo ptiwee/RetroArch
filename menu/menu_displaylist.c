@@ -189,7 +189,7 @@ static void filebrowser_parse(
    enum menu_displaylist_ctl_state type         = (enum menu_displaylist_ctl_state)type_data;
    enum filebrowser_enums filebrowser_type      = filebrowser_get_type();
    const char *path                             = info->path;
-   bool allow_parent_directory                  = true;
+   bool allow_parent_directory                  = false;
    bool path_is_compressed                      = !string_is_empty(path) ?
          path_is_compressed_file(path) : false;
    menu_search_terms_t *search_terms            = menu_entries_search_get_terms();
@@ -3455,10 +3455,6 @@ static int menu_displaylist_parse_load_content_settings(
          if (savestates_enabled &&
              settings->bools.quick_menu_show_save_load_state)
          {
-            if (MENU_DISPLAYLIST_PARSE_SETTINGS_ENUM(list,
-                  MENU_ENUM_LABEL_STATE_SLOT, PARSE_ONLY_INT, true) == 0)
-               count++;
-
             if (menu_entries_append(list,
                   msg_hash_to_str(MENU_ENUM_LABEL_VALUE_SAVE_STATE),
                   msg_hash_to_str(MENU_ENUM_LABEL_SAVE_STATE),
@@ -3471,6 +3467,10 @@ static int menu_displaylist_parse_load_content_settings(
                   msg_hash_to_str(MENU_ENUM_LABEL_LOAD_STATE),
                   MENU_ENUM_LABEL_LOAD_STATE,
                   MENU_SETTING_ACTION_LOADSTATE, 0, 0, NULL))
+               count++;
+
+            if (MENU_DISPLAYLIST_PARSE_SETTINGS_ENUM(list,
+                  MENU_ENUM_LABEL_STATE_SLOT, PARSE_ONLY_INT, true) == 0)
                count++;
          }
 
@@ -3521,14 +3521,14 @@ static int menu_displaylist_parse_load_content_settings(
             count++;
       }
 
-      if ((!retroarch_ctl(RARCH_CTL_IS_DUMMY_CORE, NULL))
-            && disk_control_enabled(&system->disk_control))
-         if (menu_entries_append(list,
-               msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_OPTIONS),
-               msg_hash_to_str(MENU_ENUM_LABEL_DISK_OPTIONS),
-               MENU_ENUM_LABEL_DISK_OPTIONS,
-               MENU_SETTING_ACTION_CORE_DISK_OPTIONS, 0, 0, NULL))
-            count++;
+      //if ((!retroarch_ctl(RARCH_CTL_IS_DUMMY_CORE, NULL))
+      //      && disk_control_enabled(&system->disk_control))
+      //   if (menu_entries_append(list,
+      //         msg_hash_to_str(MENU_ENUM_LABEL_VALUE_DISK_OPTIONS),
+      //         msg_hash_to_str(MENU_ENUM_LABEL_DISK_OPTIONS),
+      //         MENU_ENUM_LABEL_DISK_OPTIONS,
+      //         MENU_SETTING_ACTION_CORE_DISK_OPTIONS, 0, 0, NULL))
+      //      count++;
 
 #ifdef HAVE_SCREENSHOTS
       if (settings->bools.quick_menu_show_take_screenshot)
@@ -3715,10 +3715,10 @@ static int menu_displaylist_parse_load_content_settings(
          if (settings->bools.quick_menu_show_shaders && !settings->bools.kiosk_mode_enable)
          {
             if (menu_entries_append(list,
-                  msg_hash_to_str(MENU_ENUM_LABEL_VALUE_SHADER_OPTIONS),
-                  msg_hash_to_str(MENU_ENUM_LABEL_SHADER_OPTIONS),
-                  MENU_ENUM_LABEL_SHADER_OPTIONS,
-                  MENU_SETTING_ACTION, 0, 0, NULL))
+                  msg_hash_to_str(MENU_ENUM_LABEL_VALUE_VIDEO_SHADER_PRESET),
+                  msg_hash_to_str(MENU_ENUM_LABEL_VIDEO_SHADER_PRESET),
+                  MENU_ENUM_LABEL_VIDEO_SHADER_PRESET,
+                  FILE_TYPE_PATH, 0, 0, NULL))
                count++;
          }
       }
@@ -3733,6 +3733,13 @@ static int menu_displaylist_parse_load_content_settings(
                MENU_SETTING_ACTION, 0, 0, NULL))
             count++;
       }
+
+      if (menu_entries_append(list,
+              msg_hash_to_str(MENU_ENUM_LABEL_VALUE_QUIT_RETROARCH),
+              msg_hash_to_str(MENU_ENUM_LABEL_QUIT_RETROARCH),
+              MENU_ENUM_LABEL_QUIT_RETROARCH,
+              MENU_SETTING_ACTION, 0, 0, NULL))
+          count++;
    }
 
    return count;
