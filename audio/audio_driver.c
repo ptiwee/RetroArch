@@ -1305,6 +1305,10 @@ static void audio_driver_mixer_play_stream_internal(
    switch (audio_driver_st.mixer_streams[i].state)
    {
       case AUDIO_STREAM_STATE_STOPPED:
+      case AUDIO_STREAM_STATE_PLAYING:
+      case AUDIO_STREAM_STATE_PLAYING_LOOPED:
+      case AUDIO_STREAM_STATE_PLAYING_SEQUENTIAL:
+      case AUDIO_STREAM_STATE_NONE:
          audio_driver_st.mixer_streams[i].voice =
             audio_mixer_play(audio_driver_st.mixer_streams[i].handle,
                (type == AUDIO_STREAM_STATE_PLAYING_LOOPED) ? true : false,
@@ -1312,11 +1316,6 @@ static void audio_driver_mixer_play_stream_internal(
                audio_driver_st.resampler_quality,
                audio_driver_st.mixer_streams[i].stop_cb);
          audio_driver_st.mixer_streams[i].state = (enum audio_mixer_state)type;
-         break;
-      case AUDIO_STREAM_STATE_PLAYING:
-      case AUDIO_STREAM_STATE_PLAYING_LOOPED:
-      case AUDIO_STREAM_STATE_PLAYING_SEQUENTIAL:
-      case AUDIO_STREAM_STATE_NONE:
          break;
    }
 }
